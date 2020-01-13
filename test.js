@@ -4,7 +4,9 @@ var txtDiv = document.getElementById('txt');
 var fileBtn = document.getElementById("up-button");
 var copyBtn = document.getElementById("coby");
 
-let size = 6;//图片大小：整数，默认6（越小则越大,最低1）
+let size = 6;//图片大小：整数，默认6（数值越小则图片越大,最低1）
+let charArr = ['8','&','$','*','o','!',';','.'];//填充字符(长度:8)
+// let charArrTest = ['我','是','大','帅','哥','!',';','.'];//填充字符(长度:8)
 
 let totalImgArr = [];
 let totalSourctImgArr = [];
@@ -13,21 +15,21 @@ fileBtn.onchange = readImg;
 // 根据灰度生成相应字符
 function toText(g) {
     if (g <= 30) {
-        return '8';
+        return charArr[0];
     } else if (g > 30 && g <= 60) {
-        return '&';
+        return charArr[1];
     } else if (g > 60 && g <= 120) {
-        return '$';
+        return charArr[2];
     }  else if (g > 120 && g <= 150) {
-        return '*';
+        return charArr[3];
     } else if (g > 150 && g <= 180) {
-        return 'o';
+        return charArr[4];
     } else if (g > 180 && g <= 210) {
-        return '!';
+        return charArr[5];
     } else if (g > 210 && g <= 240) {
-        return ';';
+        return charArr[6];
     }  else {
-        return '.';
+        return charArr[7];
     }
 }
 // 根据rgb值计算灰度
