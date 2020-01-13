@@ -5,8 +5,8 @@ var fileBtn = document.getElementById("up-button");
 var copyBtn = document.getElementById("coby");
 
 let size = 6;//图片大小：整数，默认6（数值越小则图片越大,最低1）
-let charArr = ['8','&','$','*','o','!',';','.'];//填充字符(长度:8)
-// let charArrTest = ['我','是','大','帅','哥','!',';','.'];//填充字符(长度:8)
+let charArr = ['8','&','$','*','A','o','!',';','.'];//填充字符(长度:9)
+// let charArrTest = ['我','是','大','帅','哥','!',';','.'];//填充字符(长度:9)
 
 let totalImgArr = [];
 let totalSourctImgArr = [];
@@ -14,23 +14,12 @@ let totalSourctImgArr = [];
 fileBtn.onchange = readImg;
 // 根据灰度生成相应字符
 function toText(g) {
-    if (g <= 30) {
-        return charArr[0];
-    } else if (g > 30 && g <= 60) {
-        return charArr[1];
-    } else if (g > 60 && g <= 120) {
-        return charArr[2];
-    }  else if (g > 120 && g <= 150) {
-        return charArr[3];
-    } else if (g > 150 && g <= 180) {
-        return charArr[4];
-    } else if (g > 180 && g <= 210) {
-        return charArr[5];
-    } else if (g > 210 && g <= 240) {
-        return charArr[6];
-    }  else {
-        return charArr[7];
+    let sepNum = parseInt(255/charArr.length);
+    let charIndex = parseInt(g / sepNum);
+    if(charIndex > charArr.length-1){
+        charIndex = charIndex-1;
     }
+    return charArr[charIndex];
 }
 // 根据rgb值计算灰度
 function getGray(r, g, b) {
