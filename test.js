@@ -4,6 +4,8 @@ var txtDiv = document.getElementById('txt');
 var fileBtn = document.getElementById("up-button");
 var copyBtn = document.getElementById("coby");
 
+let size = 6;//图片大小：整数，默认6（越小则越大,最低1）
+
 let totalImgArr = [];
 let totalSourctImgArr = [];
 
@@ -49,9 +51,9 @@ function init() {
     var imgData = c.getImageData(0, 0, gl_width, gl_height);
     var imgDataArr = imgData.data;
     let singleImgArr = [];
-    for (h = 0; h < gl_height; h += 12) {
+    for (h = 0; h < gl_height; h += size*2) {
         let textArrLine = [];
-        for (w = 0; w < gl_width; w += 6) {
+        for (w = 0; w < gl_width; w += size) {
             var index = (w + gl_width * h) * 4;
             var r = imgDataArr[index + 0];
             var g = imgDataArr[index + 1];
