@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>鼠标移动放大效果</title>
+    <style>
+        .box{
+            width: 350px;
+            height: 350px;
+            position: relative;
+            margin: 100px auto;
+            margin-left: 175px;
+        }
+        .box .small{
+            width: 350px;
+            height: 350px;
+            border:1px solid #c1c1c1;
+            position: absolute;
+            left: 0;
+            top:0;
+            cursor: move;
+        }
+        .box .big{
+            width: 550px;
+            height: 550px;
+            border: 1px solid #c1c1c1;
+            position: absolute;
+            left:360px;
+            top:0;
+            overflow: hidden;
+            display: none;
+        }
+        .mask{
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,0,0.4);
+            position: absolute;
+            top:0;
+            left:0;
+            display: none;
+            cursor: move;
+        }
+        .big img{
+            position: absolute;
+            top:0;
+            left:0;
+        }
+        img{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="box" id="box">
+    <div class="small">
+        <img src="images/small.png" alt="">
+        <div class="mask"></div>
+    </div>
+    <div class="big">
+        <img src="images/big.png" alt="">
+    </div>
+</div>
+</body>
+</html>
+<script>
+    var box=document.getElementById("box");
+    var small=box.children[0];
+    var big=box.children[1];
+    var mask=small.children[1];
+    var bigImg=big.children[0];//大盒子里的图片
+    small.onmouseover=function(){//鼠标移入
+        mask.style.display="block";
+        big.style.display="block";
+    }
+    small.onmouseout=function(){//鼠标离开
+        mask.style.display="none";
+        big.style.display="none";
+    }
+
+    var x=0;
+    var y=0;
+    small.onmousemove=function(event){
+        var event=event||window.event;
+        //鼠标移动的x值=鼠标的位置-大盒子左距-遮罩宽度的一半
+        var x=event.clientX-this.offsetParent.offsetLeft-mask.offsetWidth/2;
+        var y=event.clientY-this.offsetParent.offsetTop-mask.offsetHeight/2;
+        //控制鼠标只能在盒子里面移动
+        if(x<0){
+            x=0;
+        }else if(x>small.offsetWidth-mask.offsetWidth){
+            x=small.offsetWidth-mask.offsetWidth;
+        }
+        if(y<0){
+            y=0;
+        }else if(y>small.offsetHeight-mask.offsetHeight){
+            y=small.offsetHeight-mask.offsetHeight;
+        }
+        mask.style.left=x+"px";
+        mask.style.top=y+"px";
+
+        //大盒子移动的距离=小盒子移动距离*大盒子和小盒子的比例数
+        bigImg.style.left=-x*big.offsetWidth/small.offsetWidth+"px";
+        bigImg.style.top=-y*big.offsetHeight/small.offsetHeight+"px";
+    }
+</script>
