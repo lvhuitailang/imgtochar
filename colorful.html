@@ -1,0 +1,160 @@
+<html>
+<script src="./jquery-1.11.0.min.js"></script>
+<style>
+    .colorful{
+        position: relative;
+        background: #fff;
+        transform:scale(0.1);
+    }
+    .circle{
+        width: 100px;
+        height: 100px;
+        background: red;
+        border: none;
+        border-radius: 100%;
+        position: absolute;
+        top:10px;
+    }
+    .circle1{
+        left: 0;
+    }
+    .circle2{
+        left: 50px;
+
+    }
+    .square{
+        width: 95px;
+        height: 95px;
+        position: absolute;
+        background: red;
+        border: none;
+        transform: rotate(45deg);
+        left: 28px;
+        top: 39px;
+    }
+
+
+</style>
+<div class="colorful">
+    <div class="circle circle1">
+
+    </div>
+    <div class="circle circle2">
+
+    </div>
+    <div class="square">
+
+    </div>
+</div>
+</html>
+<script>
+    let glWidth = 983;
+    let glHeitht = 672;
+    let heartObj = $('.colorful');
+    for(let i = 0;i < 90;i++){
+        console.log(i);
+        let heartTtemp = heartObj.clone();
+        let left = Math.round(Math.round(Math.random()*glWidth));
+        let top = Math.round(Math.round(Math.random()*glHeitht));
+        let tempCss = {
+            position:'fixed'
+            ,left:left
+            ,top:top
+            ,background:getRandomColor()
+
+
+        };
+        heartTtemp.css(tempCss);
+        heartTtemp.find('div').css({background:getRandomColorWithAlpha()});
+        $('html').append(heartTtemp);
+        moveToNone(heartTtemp);
+
+    }
+
+    /**
+     * 随机颜色
+     * @returns {string}
+     */
+    function getRandomColor(){
+        let r = Math.round(Math.random()*255);
+        let g = Math.round(Math.random()*255);
+        let b = Math.round(Math.random()*255);
+        let colorStr = 'rgb('+r+','+g+','+b+')';
+        return colorStr;
+    }
+
+    /**
+     * 带透明度的随机颜色
+     * @returns {string}
+     */
+    function getRandomColorWithAlpha(){
+        let r = Math.round(Math.random()*255);
+        let g = Math.round(Math.random()*255);
+        let b = Math.round(Math.random()*255);
+        let a = Math.random();
+        let colorStr = 'rgba('+r+','+g+','+b+','+a+')';
+        return colorStr;
+    }
+
+    /**
+     * 随机移动
+     * @param circle
+     */
+    function moveToNone(circle){
+    /*    setTimeout(()=>{
+            $(circle).remove();
+        },2000);*/
+        circleObj = circle[0];
+        let offsetLeft = circleObj.offsetLeft;
+        let offsetTop = circleObj.offsetTop;
+        let timeTemp = undefined;
+        let rand1 = Math.round(Math.random()*50);
+        let rand2 = Math.round(Math.random()*1000+1000);
+        setInterval(()=>{
+            if(timeTemp){
+                clearInterval(timeTemp);
+            }
+            let tempFlagX = Math.random();
+            let tempFlagY = Math.random();
+
+            timeTemp = setInterval(()=>{
+                let tt = getPosition(tempFlagX,tempFlagY,offsetLeft,offsetTop);
+                offsetLeft = tt.offsetLeft;
+                offsetTop = tt.offsetTop;
+                $(circle).css({'left':offsetLeft,'top':offsetTop});
+            },rand1);
+
+        },rand2);
+    }
+    function getPosition(tempFlagX,tempFlagY,offsetLeft,offsetTop){
+        if(tempFlagX > 0.5){
+            offsetLeft++;
+        }else{
+            offsetLeft--;
+        }
+        if(tempFlagY > 0.5){
+            offsetTop++;
+        }else{
+            offsetTop--;
+        }
+
+        if(offsetLeft > glWidth){
+            offsetLeft = glWidth;
+        }else if(offsetLeft < 0){
+            offsetLeft = 0;
+        }
+        if(offsetTop > glHeitht){
+            offsetTop = glHeitht;
+        }else if(offsetTop < 0){
+            offsetTop = 0;
+        }
+
+        return {
+            offsetLeft:offsetLeft,
+            offsetTop:offsetTop
+        }
+
+    }
+
+
+</script>
