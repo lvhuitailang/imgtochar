@@ -1,52 +1,132 @@
-<!DOCTYPE HTML>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>基于canvas的图片转字符画工具</title>
-    <style type="text/css">
-    * {margin: 0;padding: 0;}
-    body {font-size: 12px; margin: 10px; font-family: simsun; background: #fff;}
-    p { height: 12px;}
-    p.ts { margin: 10px 0 0 0; width: 500px; float: left;}
-    span {width: 12px;}
-    #cv, #txt {float: left;}
-    #cv { margin-right: 5px;}
-    .bt{ height: 37px; }
-    form, input {width: 73px;height: 27px;}
-    form {
-        position: relative;
-        float: left;
-        margin: 0 10px 0 0;
-    }
-    #up-button{
-        position: absolute;
-        right: 0;
-        top: 0;
-        cursor: pointer;
-        opacity: 0;
-        filter: alpha(opacity=0);
-        outline: none;
-    }
-    #button{
-    }
-    iframe ,#cv{display: none;}
-</style>
+    <title>轮播图</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .main{
+            position: relative;
+            top: 50px;
+            left: 10%;
+            border: red solid 1px;
+            width: 600px;
+            height: 400px;
+            overflow: hidden;
+        }
+        .leftButton,.rightButton{
+            position: absolute;
+            color: white;
+            opacity: 0.6;
+            font-size: 15px;
+            font-weight: 900;
+            display: inline;
+            line-height: 30px;
+            border-radius:30px;
+            /*background:rgba(255,255,255,0.2);*/
+            width: 49px;
+            height: 30px;
+            top: 200px;
+            z-index: 9999;
 
+        }
+        .leftButton{
+            left: -33px;
+            text-align: right;
+            padding-right:6px ;
+            padding-bottom: 2px;
+        }
+        .rightButton{
+            right: -33px;
+            padding-left:5px ;
+            padding-bottom: 2px;
+        }
+        .selects{
+            width: 4800px;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .selects img{
+            float: left;
+            display: block;
+            width: 600px;
+            height: 400px;
+        }
+    </style>
 </head>
 <body>
-<div class="bt">
-  长满1600px宽满2840px；图片尺寸越大生成的文字代码越清晰，浏览器保存网页为图片。
-    <form id="uf">
-        <input type="file" name="file" id="up-button"/>
-        <input type="button" id="button" value="选择图片"/>
-    </form>
+<div class="main">
+    <div class="leftButton">&lt;</div>
+    <div class="rightButton">&gt;</div>
+    <div class="selects">
+        <img class="imgs img1" src="https://dummyimage.com/600x400/f00/fff/&text=1"></img>
+        <img class="imgs img2" src="https://dummyimage.com/600x400/d2d/fff/&text=2"></img>
+        <img class="imgs img3" src="https://dummyimage.com/600x400/3f0/fff/&text=3"></img>
+        <img class="imgs img4" src="https://dummyimage.com/600x400/480/fff/&text=4"></img>
+        <img class="imgs img5" src="https://dummyimage.com/600x400/670/fff/&text=5"></img>
+        <img class="imgs img6" src="https://dummyimage.com/600x400/570/fff/&text=6"></img>
+        <img class="imgs img7" src="https://dummyimage.com/600x400/804/fff/&text=7"></img>
+        <img class="imgs img8" src="https://dummyimage.com/600x400/f00/fff/&text=1"></img>
+    </div>
 </div>
-<div>
-    <canvas id="sourceImg"></canvas>
-</div>
-<div id="txt"></div>
- </body>
-</html>
-        <style> </style>
-<script src="libgif.js"></script>
-<script src="test.js"></script>
+</body>
+<script src="./jQuery.js"></script>
+<script>
+    let gl_width = 3600;
+    let every_width = 600;
+    let ac_position = $('.selects').position();
+    let temp_position = ac_position.left-600;
+    window.setInterval(()=>{
+        let ac_position = $('.selects').position();
+        let temp_position = ac_position.left-every_width;
+        if(Math.abs(temp_position) > gl_width){
+            slide(ac_position.left,temp_position,ac_position.left>temp_position,stop);
+            ac_position = 0;
+            temp_position = 0;
+        }else{
+            slide(ac_position.left,temp_position,ac_position.left>temp_position);
+        }
+
+    },2000);
+
+    /**
+     * 滑动
+     * @param start
+     * @param end
+     * @param arrow false:右 true:左
+     */
+    function slide(start,end,arrow,stop){
+        let tempClock = window.setInterval(()=>{
+          /*  console.log(start+'======'+end)
+            console.log(every_width/1000/100)*/
+            if(arrow){
+                if(start <= end){
+                    window.clearInterval(tempClock);
+                    if(stop){
+                        $('.selects').css({left:0});
+                    }else{
+                        $('.selects').css({left:end+'px'});
+                    }
+                    return;
+                }else{
+                    start-=(every_width/(500/5));
+                    $('.selects').css({left:start+'px'});
+                }
+
+            }else{
+
+
+            }
+
+
+
+        },5);
+    }
+
+
+
+</script>

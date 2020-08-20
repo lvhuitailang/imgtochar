@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>面板拖动</title>
+    <style>
+        div{
+            height: 200px;
+            width: 400px;
+            line-height: 200px;
+            text-align: center;
+            font-size: 30px;
+            background-color: deeppink;
+            color: deepskyblue;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="aaa">当前位置:</div>
+</body>
+<script src="./jQuery.js"></script>
+<script>
+    var $div = $('#aaa');
+    var old_event_x = 0;
+    var old_event_y = 0;
+
+    $div.on('mousedown',function (e) {
+        console.log(1111)
+        $div.css({'cursor':'move'}); //鼠标移动的时候改变样式
+        old_event_x = e.clientX;
+        old_event_y = e.clientY;
+        $div.on('mousemove',function (e2) {
+            let new_event_x = e2.clientX;
+            let new_event_y = e2.clientY;
+            $div.css({'left':$div[0].offsetLeft+new_event_x-old_event_x+'px','top':$div[0].offsetTop+new_event_y-old_event_y+'px'})
+            old_event_x = new_event_x;
+            old_event_y = new_event_y;
+
+        });
+    });
+    $div.on('mouseup',function(e){
+        $div.off('mousemove');
+        $div.css({'cursor':'auto'});
+        old_event_x = e.clientX;
+        old_event_y = e.clientY;
+    });
+</script>
+</html>

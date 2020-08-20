@@ -87,7 +87,7 @@ function readImg() {
             }
         }
 
-    }else if('image/jpeg' == type){
+    }else if('image/jpeg' == type || 'image/png' == type){
         let reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = function () {
